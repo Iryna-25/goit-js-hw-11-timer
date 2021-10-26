@@ -58,7 +58,7 @@ changeTimer ({days, hours, mins, secs}) {
 }
 }
 
-const CountdownTimer = new CountdownTimer({
+const Countdown = new CountdownTimer({
 selector: '#timer-1',
 targetDate: new Date('Jul 17, 2019'),
 });
