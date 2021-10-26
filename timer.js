@@ -9,7 +9,6 @@ class CountdownTimer {
         this.mins = document.querySelector('[data-value="mins"]');
         this.secs = document.querySelector('[data-value="secs"]');
     }
-}
 
 init() {
     setInterval (() => {
@@ -56,6 +55,7 @@ changeTimer ({days, hours, mins, secs}) {
     this.hours.textContent = `${hours}`;
     this.mins.textContent = `${mins}`;
     this.secs.textContent = `${secs}`;
+}
 }
 
 const CountdownTimer = new CountdownTimer({
