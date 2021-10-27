@@ -60,6 +60,6 @@ changeTimer ({days, hours, mins, secs}) {
 
 const Countdown = new CountdownTimer({
 selector: '#timer-1',
-targetDate: new Date('Jul 17, 2019'),
+targetDate: new Date('Nov 28, 2021'),
 });
 
