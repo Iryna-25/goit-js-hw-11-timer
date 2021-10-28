@@ -15,7 +15,12 @@ init() {
     const currentTime = Date.now();
     const time = this.targetDate - currentTime;
     this.changeTimer(this.getTimeComponents(time));
+    if (time < 0) return this.stopTimer(this.#timerId);
     }, 1000);
+}
+
+stopTimer(id) {
+    clearInterval(id);
 }
 
 pad(value) {
