@@ -1,0 +1,38 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+}
+.timer {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    border-radius: 3%;
+    background-color: antiquewhite;
+    color: black;
+
+}
+
+.field {
+    width: 40px;
+} 
+
+.field:not(:last-child){
+    position: relative;
+    margin-right: 35px;
+}
+
+.value {
+    display: inline-block;
+    font-size: 30px;
+    background-color: cadetblue;
+    border-radius: 50%;
+    background-size: 100%;
+    text-align: center;
+    justify-content: center;
+}
+
+.label {
+    display: block;
+text-align: center;
+font-size: 10px;
+background-size: 100%;
+}

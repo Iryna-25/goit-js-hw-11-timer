@@ -1,70 +1,70 @@
 class CountdownTimer {
-    constructor ({selector, targetDate}) {
-        this.selector = selector;
-        this.targetDate = targetDate;
-        this.init();
-
-        this.days = document.querySelector('[data-value="days"]');
-        this.hours = document.querySelector('[data-value="hours"]');
-        this.mins = document.querySelector('[data-value="mins"]');
-        this.secs = document.querySelector('[data-value="secs"]');
+    #timerId = null;
+  
+    constructor({ selector, targetDate}) {
+      this.selector = selector;
+      this.targetDate = targetDate;
     }
+  
+    updateTimer(time) {
+    const timer = document.querySelector(this.selector);
+    const refs = {
+        days: timer.querySelector('[data-value="days"]'),
+        daysLabel: timer.querySelector('[data-value="days"] + .label'),
+        hours: timer.querySelector('[data-value="hours"]'),
+        hoursLabel: timer.querySelector('[data-value="hours"] + .label'),
+        mins: timer.querySelector('[data-value="mins"]'),
+        minsLabel: timer.querySelector('[data-value="mins"] + .label'),
+        secs: timer.querySelector('[data-value="secs"]'),
+        secsLabel: timer.querySelector('[data-value="secs"] + .label'),
+      };
+  
+      const days = Math.floor(time / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((time % (1000 * 60)) / 1000);
+  
+      refs.days.textContent = String(days).padStart(2, "0");
+      refs.daysLabel.textContent = days === 1 ? "Day" : "Days";
+  
+      refs.hours.textContent = String(hours).padStart(2, "0");
+      refs.hoursLabel.textContent = hours === 1 ? "Hour" : "Hours";
+  
+      refs.mins.textContent = String(mins).padStart(2, "0");
+      refs.minsLabel.textContent = mins === 1 ? "Minute" : "Minutes";
+  
+      refs.secs.textContent = String(secs).padStart(2, "0");
+      refs.secsLabel.textContent = secs === 1 ? "Second" : "Seconds";
+    }
+  
+    startTimer() {
+      this.#timerId = setInterval(
+        () => {
+          const time = this.targetDate - Date.now();
+  
+          if (time < 0) return this.stopTimer(this.#timerId);
+          return this.updateTimer(time);
+        },
+        1000,
+        this
+      );
+    }
+  
+    stopTimer(id) {
+      clearInterval(id);
+    }
+  }
+  
+  const today = new Date();
 
-init() {
-    setInterval (() => {
-    const currentTime = Date.now();
-    const time = this.targetDate - currentTime;
-    this.changeTimer(this.getTimeComponents(time));
-    if (time < 0) return this.stopTimer(this.#timerId);
-    }, 1000);
-}
+  const myTimers = [ {
+      name: "Timerok",
+      selector: "#timer-1",
+      targetDate: new Date("Nov 1, 2021"),
+    },];
 
-stopTimer(id) {
-    clearInterval(id);
-}
-
-pad(value) {
-    return String(value).padStart(2,"0");
-}
-
-getTimeComponents(time) {
-    /*
- * Оставшиеся дни: делим значение UTC на 1000 * 60 * 60 * 24, количество
- * миллисекунд в одном дне (миллисекунды * секунды * минуты * часы)
- */
-const days = this.pad(Math.floor(time / (1000 * 60 * 60 * 24)));
-
-/*
- * Оставшиеся часы: получаем остаток от предыдущего расчета с помощью оператора
- * остатка % и делим его на количество миллисекунд в одном часе
- * (1000 * 60 * 60 = миллисекунды * минуты * секунды)
- */
-const hours = this.pad(Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-
-/*
- * Оставшиеся минуты: получаем оставшиеся минуты и делим их на количество
- * миллисекунд в одной минуте (1000 * 60 = миллисекунды * секунды)
- */
-const mins = this.pad(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
-
-/*
- * Оставшиеся секунды: получаем оставшиеся секунды и делим их на количество
- * миллисекунд в одной секунде (1000)
- */
-const secs = this.pad(Math.floor((time % (1000 * 60)) / 1000));
-return {days, hours, mins, secs};
-}
-
-changeTimer ({days, hours, mins, secs}) {
-    this.days.textContent = `${days}`;
-    this.hours.textContent = `${hours}`;
-    this.mins.textContent = `${mins}`;
-    this.secs.textContent = `${secs}`;
-}
-}
-
-const Countdown = new CountdownTimer({
-selector: '#timer-1',
-targetDate: new Date('Dec 28, 2021'),
-});
-
+  myTimers.forEach((timer) => {
+    const myTimer = new CountdownTimer(timer);
+    const startTimer = new Promise((resolve) => resolve(myTimer.startTimer()));
+  });
+  
